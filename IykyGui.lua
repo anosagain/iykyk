@@ -143,7 +143,7 @@ G2L["10"].FontFace = Font.new(
 G2L["10"].TextColor3 = Color3.fromRGB(255, 255, 255)
 G2L["10"].BackgroundTransparency = 1
 G2L["10"].Size = UDim2.new(0.96382, 0, 0.20747, 0)
-G2L["10"].Text = "Open / Close Gui : Ctrl"
+G2L["10"].Text = "Open / Close Gui : P"
 G2L["10"].Name = "Info1"
 G2L["10"].Position = UDim2.new(0.01974, 0, 0.04149, 0)
 
@@ -421,9 +421,7 @@ UserInputService.InputBegan:Connect(function(input, processed)
 		return
 	end
 
-	if input.KeyCode == Enum.KeyCode.LeftControl
-		or input.KeyCode == Enum.KeyCode.RightControl then
-
+	if input.KeyCode == Enum.KeyCode.P then
 		Gui.Enabled = not Gui.Enabled
 	end
 end)
