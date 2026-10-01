@@ -290,16 +290,26 @@ HitboxButton.MouseButton1Click:Connect(function()
 	UpdateHitboxes()
 end)
 
-Players.PlayerAdded:Connect(function(player)
-	player.CharacterAdded:Connect(function()
-		task.wait(1)
+local function SetupPlayer(player)
+	if player == LocalPlayer then
+		return
+	end
 
-		if HitboxEnabled then
+	player.CharacterAdded:Connect(function(character)
+		local root = character:WaitForChild("HumanoidRootPart", 5)
+
+		if root and HitboxEnabled then
+			task.wait(0.2)
 			SetHitbox(player, true)
 		end
 	end)
-end)
+end
 
+for _, player in ipairs(Players:GetPlayers()) do
+	SetupPlayer(player)
+end
+
+Players.PlayerAdded:Connect(SetupPlayer)
 --==================================================
 -- ESP
 --==================================================
