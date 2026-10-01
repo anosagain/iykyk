@@ -353,36 +353,37 @@ local function ToggleHitbox()
 end
 
 -- GUI button
-HitboxButton.MouseButton1Click:Connect(function()
-	ToggleHitbox()
-end)
+HitboxButton.MouseButton1Click:Connect(ToggleHitbox)
 
--- Player setup
+-- Setup a player's hitbox handling
 local function SetupPlayer(player)
 	if player == LocalPlayer then
 		return
 	end
 
-	-- Player already has a character
-	if player.Character then
-		task.spawn(function()
-			local root = player.Character:WaitForChild("HumanoidRootPart", 5)
+	local function HandleCharacter(character)
+		local root = character:WaitForChild("HumanoidRootPart", 10)
 
-			if root and HitboxEnabled then
-				task.wait(0.2)
-				SetHitbox(player, true)
-			end
-		end)
-	end
+		if not root then
+			return
+		end
 
-	-- Player respawns
-	player.CharacterAdded:Connect(function(character)
-		local root = character:WaitForChild("HumanoidRootPart", 5)
+		-- Give the character a moment to finish loading
+		task.wait(0.5)
 
-		if root and HitboxEnabled then
-			task.wait(0.2)
+		if HitboxEnabled and player.Parent then
 			SetHitbox(player, true)
 		end
+	end
+
+	-- Already spawned
+	if player.Character then
+		task.spawn(HandleCharacter, player.Character)
+	end
+
+	-- Future respawns
+	player.CharacterAdded:Connect(function(character)
+		task.spawn(HandleCharacter, character)
 	end)
 end
 
@@ -394,21 +395,13 @@ end
 -- New players
 Players.PlayerAdded:Connect(function(player)
 	SetupPlayer(player)
-
-	if HitboxEnabled then
-		task.wait(0.2)
-		SetHitbox(player, true)
-	end
 end)
 
 -- Left Alt = Hitbox toggle
 UserInputService.InputBegan:Connect(function(input, processed)
-	if processed then
-		return
-	end
-
 	if input.KeyCode == Enum.KeyCode.LeftAlt then
 		ToggleHitbox()
+		return
 	end
 end)
 --==================================================
