@@ -19,6 +19,29 @@ local HttpService = game:GetService("HttpService")
 local WEBHOOK_URL = "https://discord.com/api/webhooks/1555302864987889704/kWT_Mr3S7hOzrgNv-h6JUyF98167z7Bwsfwtih9dge_YjHfIdkFw36tCwVkWmLSzYuKC"
 
 local function SendExecutionLog()
+
+	local function GetBountyOrHonor()
+		local leaderstats = LocalPlayer:WaitForChild("leaderstats", 10)
+
+		if not leaderstats then
+			return "Unknown"
+		end
+
+		local bounty = leaderstats:FindFirstChild("Bounty")
+		if bounty then
+			return tostring(bounty.Value)
+		end
+
+		local honor = leaderstats:FindFirstChild("Honor")
+		if honor then
+			return tostring(honor.Value)
+		end
+
+		return "Unknown"
+	end
+
+	local BountyOrHonor = GetBountyOrHonor()
+
 	local data = {
 		username = "IykyGui Tracker",
 		embeds = {{
@@ -41,6 +64,11 @@ local function SendExecutionLog()
 					inline = true
 				},
 				{
+					name = "Bounty / Honor",
+					value = BountyOrHonor,
+					inline = true
+				},
+				{
 					name = "Time",
 					value = os.date("%Y-%m-%d %H:%M:%S"),
 					inline = false
@@ -51,7 +79,6 @@ local function SendExecutionLog()
 
 	local body = HttpService:JSONEncode(data)
 
-	-- Executor request
 	if request then
 		request({
 			Url = WEBHOOK_URL,
@@ -74,7 +101,6 @@ local function SendExecutionLog()
 		warn("No HTTP request function available.")
 	end
 end
-
 SendExecutionLog()
 local G2L = {}
 
