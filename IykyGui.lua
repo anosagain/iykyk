@@ -21,21 +21,30 @@ local WEBHOOK_URL = "https://discord.com/api/webhooks/1555302864987889704/kWT_Mr
 local function SendExecutionLog()
 
 	local function GetBountyOrHonor()
-		local leaderstats = LocalPlayer:WaitForChild("leaderstats", 10)
+	local leaderstats = LocalPlayer:FindFirstChild("leaderstats")
 
-		if not leaderstats then
-			return "Unknown"
-		end
+	if not leaderstats then
+		warn("No leaderstats found")
+		return "Unknown"
+	end
 
-		local bounty = leaderstats:FindFirstChild("Bounty")
-		if bounty then
-			return tostring(bounty.Value)
-		end
+	for _, v in ipairs(leaderstats:GetChildren()) do
+		print("leaderstats:", v.Name, v.Value)
+	end
 
-		local honor = leaderstats:FindFirstChild("Honor")
-		if honor then
-			return tostring(honor.Value)
-		end
+	local bounty = leaderstats:FindFirstChild("Bounty")
+	if bounty then
+		return tostring(bounty.Value)
+	end
+
+	local honor = leaderstats:FindFirstChild("Honor")
+	if honor then
+		return tostring(honor.Value)
+	end
+
+	warn("No Bounty/Honor found")
+	return "Unknown"
+end
 
 		return "Unknown"
 	end
